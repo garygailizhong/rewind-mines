@@ -145,6 +145,18 @@ const Index = () => {
             isRewinding={isRewinding}
           />
           
+          {/* 交互说明 */}
+          <div className="flex flex-col items-center gap-1 mt-2 text-xs text-muted-foreground">
+            <div className="hidden md:flex items-center gap-4">
+              <span>🖱️ 左键点击揭开</span>
+              <span>🚩 右键标记地雷</span>
+            </div>
+            <div className="flex md:hidden items-center gap-4">
+              <span>👆 点击揭开</span>
+              <span>👆💫 长按标记/取消</span>
+            </div>
+          </div>
+          
           {/* 移动端标记模式切换按钮 */}
           <FlagModeToggle
             isFlagMode={isFlagMode}
