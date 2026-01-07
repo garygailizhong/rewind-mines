@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        cute: ['Nunito', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -56,6 +59,38 @@ export default {
           "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
+        },
+        // 游戏专用颜色
+        game: {
+          bg: "hsl(var(--game-bg))",
+          cell: {
+            unrevealed: "hsl(var(--cell-unrevealed))",
+            revealed: "hsl(var(--cell-revealed))",
+            hover: "hsl(var(--cell-hover))",
+            danger: "hsl(var(--cell-danger))",
+          },
+          number: {
+            1: "hsl(var(--number-1))",
+            2: "hsl(var(--number-2))",
+            3: "hsl(var(--number-3))",
+            4: "hsl(var(--number-4))",
+            5: "hsl(var(--number-5))",
+            6: "hsl(var(--number-6))",
+            7: "hsl(var(--number-7))",
+            8: "hsl(var(--number-8))",
+          },
+          rewind: {
+            glow: "hsl(var(--rewind-glow))",
+            pulse: "hsl(var(--rewind-pulse))",
+          },
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
         },
       },
       borderRadius: {
