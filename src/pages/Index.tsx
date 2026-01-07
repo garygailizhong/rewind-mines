@@ -6,6 +6,7 @@ import { RewindPrompt } from '@/components/game/RewindPrompt';
 import { GameOverModal } from '@/components/game/GameOverModal';
 import { DifficultySelector } from '@/components/game/DifficultySelector';
 import { StatsModal } from '@/components/game/StatsModal';
+import { FlagModeToggle } from '@/components/game/FlagModeToggle';
 import { useGameLogic } from '@/hooks/useGameLogic';
 import { useGameStats } from '@/hooks/useGameStats';
 import { useSound } from '@/hooks/useSound';
@@ -18,6 +19,7 @@ const Index = () => {
   const [isRewinding, setIsRewinding] = useState(false);
   const [showRewindRestore, setShowRewindRestore] = useState(false);
   const [showMenu, setShowMenu] = useState(true);
+  const [isFlagMode, setIsFlagMode] = useState(false);
   
   const { gameState, revealCell, toggleFlag, startNewGame, performRewind, skipRewind } = useGameLogic(selectedDifficulty);
   const { stats, recordWin, recordLoss, resetStats, winRate } = useGameStats();
@@ -47,11 +49,17 @@ const Index = () => {
     }
   }, [gameState.status]);
   
-  const handleReveal = useCallback((row: number, col: number) => {
-    sound.playReveal();
-    revealCell(row, col);
-  }, [revealCell, sound]);
-  
+  // 处理格子点击 - 根据模式决定揭开还是标记
+  const handleCellClick = useCallback((row: number, col: number) => {
+    if (isFlagMode) {
+      sound.playFlag();
+      toggleFlag(row, col);
+    } else {
+      sound.playReveal();
+      revealCell(row, col);
+    }
+  }, [isFlagMode, revealCell, toggleFlag, sound]);
+
   const handleFlag = useCallback((row: number, col: number) => {
     sound.playFlag();
     toggleFlag(row, col);
@@ -131,10 +139,16 @@ const Index = () => {
           
           <GameBoard
             board={gameState.board}
-            onReveal={handleReveal}
+            onReveal={handleCellClick}
             onFlag={handleFlag}
             disabled={gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'rewind-prompt'}
             isRewinding={isRewinding}
+          />
+          
+          {/* 移动端标记模式切换按钮 */}
+          <FlagModeToggle
+            isFlagMode={isFlagMode}
+            onToggle={() => setIsFlagMode(!isFlagMode)}
           />
         </div>
       )}
