@@ -133,7 +133,7 @@ const Index = () => {
             board={gameState.board}
             onReveal={handleReveal}
             onFlag={handleFlag}
-            disabled={gameState.status !== 'playing'}
+            disabled={gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'rewind-prompt'}
             isRewinding={isRewinding}
           />
         </div>
