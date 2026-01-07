@@ -10,13 +10,14 @@ import { useGameLogic } from '@/hooks/useGameLogic';
 import { useGameStats } from '@/hooks/useGameStats';
 import { useSound } from '@/hooks/useSound';
 import { Difficulty, DIFFICULTY_CONFIGS } from '@/types/game';
-import { Play, BarChart3, RotateCcw } from 'lucide-react';
+import { Play, BarChart3, RotateCcw, Home } from 'lucide-react';
 
 const Index = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('easy');
   const [showStats, setShowStats] = useState(false);
   const [isRewinding, setIsRewinding] = useState(false);
   const [showRewindRestore, setShowRewindRestore] = useState(false);
+  const [showMenu, setShowMenu] = useState(true);
   
   const { gameState, revealCell, toggleFlag, startNewGame, performRewind, skipRewind } = useGameLogic(selectedDifficulty);
   const { stats, recordWin, recordLoss, resetStats, winRate } = useGameStats();
@@ -65,10 +66,13 @@ const Index = () => {
   
   const handleStartGame = () => {
     startNewGame(selectedDifficulty);
+    setShowMenu(false);
   };
   
-  const isGameActive = gameState.status === 'playing' || gameState.status === 'rewind-prompt';
-  const showMenu = gameState.status === 'idle';
+  const handleGoHome = () => {
+    startNewGame(selectedDifficulty);
+    setShowMenu(true);
+  };
   
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
@@ -151,8 +155,11 @@ const Index = () => {
           elapsedTime={gameState.elapsedTime}
           rewindsUsed={rewindsUsed}
           difficulty={gameState.difficulty}
-          onRestart={() => startNewGame(gameState.difficulty)}
-          onHome={() => startNewGame(gameState.difficulty)}
+          onRestart={() => {
+            startNewGame(gameState.difficulty);
+            setShowMenu(false);
+          }}
+          onHome={handleGoHome}
           bestTime={stats.bestTimes[gameState.difficulty]}
         />
       )}
